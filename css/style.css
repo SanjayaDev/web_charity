@@ -1,0 +1,226 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,800&display=swap");
+
+:root {
+  --dark: #333;
+  --dark-lighter: #7a7a7a;
+  --primary-color: #3d9bd4;
+  --secondary-color: #2880b6;
+  --light: #fff;
+  --light-two: #f9fafb;
+  --light-three: #f6f7fb;
+}
+
+/* General Styles */
+html {
+  font-size: 14px;
+}
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body,
+button,
+input,
+textarea {
+  font-family: "Poppins", sans-serif;
+}
+a {
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
+img {
+  width: 100%;
+}
+.container {
+  position: relative;
+  z-index: 5;
+  max-width: 92rem;
+  padding: 0 4rem;
+  margin: 0 auto;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  justify-content: center;
+}
+.text {
+  font-size: 1.25rem;
+  color: var(--dark-lighter);
+  line-height: 1.6;
+}
+.column-1 {
+  margin-right: 1.5rem;
+}
+.column-2 {
+  margin-left: 1.5rem;
+}
+.image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.z-index {
+  position: relative;
+  z-index: 2;
+}
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+}
+.overlay .shape {
+  width: initial;
+  opacity: 0.13;
+  position: absolute;
+}
+.overlay.overlay-lg .shape {
+  height: 45px;
+}
+.overlay.overlay-lg .shape.wave {
+  height: initial;
+  width: 88px;
+}
+.overlay.overlay-lg .shape.xshape {
+  height: 28px;
+}
+/* End General Styles */
+
+/* Header */
+header,
+.intro {
+  width: 100%;
+  background-color: var(--light-three);
+  overflow: hidden;
+  position: relative;
+}
+nav {
+  width: 100%;
+  position: relative;
+  z-index: 50;
+}
+nav .container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 6rem;
+  align-items: center;
+}
+.logo {
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.links ul {
+  display: flex;
+}
+.links a {
+  display: inline-block;
+  padding: 0.9rem 1.2rem;
+  color: var(--dark);
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  line-height: 1;
+  transition: 0.3s;
+}
+.links a.active {
+  background-color: var(--primary-color);
+  color: var(--light);
+  border-radius: 2rem;
+  font-size: 1rem;
+  padding: 0.9rem 2.1rem;
+}
+.links a:hover {
+  color: var(--primary-color);
+}
+.links a.active:hover {
+  color: var(--light);
+  background-color: var(--secondary-color);
+}
+/* End Header */
+
+/* Start Intro */
+.intro .container.grid-2 {
+  grid-template-columns: 2.5fr 3.5fr;
+  min-height: calc(100vh - 6rem);
+  padding-bottom: 2.5rem;
+  text-align: left;
+}
+.intro-title {
+  font-size: 3.8rem;
+  line-height: 1;
+  color: var(--dark);
+}
+.intro .text {
+  margin: 2.15rem 0;
+}
+.btn {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  background-color: var(--primary-color);
+  color: var(--light);
+  border-radius: 2rem;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.btn:hover {
+  background-color: var(--secondary-color);
+}
+.intro .image .image-element {
+  max-width: 750px;
+}
+.intro .square {
+  right: 68%;
+  top: 71%;
+}
+.intro .triangle {
+  right: 7%;
+  bottom: 75%;
+}
+.intro .xshape {
+  right: 4%;
+  bottom: 50%;
+}
+.intro .half-circle1 {
+  left: 50%;
+  bottom: 82%;
+}
+.intro .half-circle2 {
+  left: 5%;
+  bottom: 67%;
+}
+.intro .wave1 {
+  bottom: 75%;
+  left: 20%;
+}
+.intro .wave2 {
+  bottom: 8%;
+  right: 55%;
+}
+.intro .circle {
+  left: 38%;
+  bottom: 63%;
+}
+.points {
+  opacity: 0.3;
+  position: absolute;
+}
+.intro .point1 {
+  width: 350px;
+  bottom: -75px;
+  left: -150px;
+}
+/* End Intro */
