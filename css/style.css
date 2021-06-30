@@ -419,18 +419,100 @@ nav .container {
   justify-content: center;
 }
 .gallery-image {
+  cursor: pointer;
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
-  height: 300px;
+  border-radius: 10px;
+  height: 320px;
   width: 100%;
+  background: linear-gradient(
+      239deg,
+      transparent 48%,
+      rgba(239, 241, 243, 0.3) 0
+    ),
+    linear-gradient(229deg, hsla(0, 0%, 42.4%, 0.06) 62%, transparent 0),
+    linear-gradient(331deg, hsla(0, 0%, 42.4%, 0.06) 58%, transparent 0),
+    #f4f4f4;
 }
-.gallery-image img {
+.img-decor {
   position: absolute;
-  height: 115%;
-  width: initial;
-  top: 50%;
+  top: -150px;
   left: 50%;
-  transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, 0, 0);
+  width: 500px;
+  height: 400px;
+  background-color: #333;
+  clip-path: circle();
+}
+.img-decor::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -35px;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: 0 0 0 20px rgba(61, 155, 212, 0.5);
+  border-radius: 50%;
+  z-index: 5;
+  pointer-events: none;
+}
+.img-decor .img-box {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate3d(-50%, 0, 0);
+  width: 100%;
+  height: 250px;
+}
+.img-decor .img-box img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+  transition: 0.5s;
+  transform-origin: center;
+}
+.img-decor .img-box:hover img {
+  transform: scale(1.2);
+}
+.gallery-image .image-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: 30px 1fr 30px;
+}
+.image-content .content-text h3 {
+  color: var(--dark);
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+.image-content .fas {
+  width: 100%;
+  align-self: center;
+  font-size: 1.8rem;
+  color: var(--primary-color);
+}
+.content-text .text {
+  font-size: 1.1rem;
 }
 /* End Service */
+
+/* About */
+.about {
+  overflow: hidden;
+}
+.about img {
+  max-width: 600px;
+}
+.about .section-body .column-1 .title-sm {
+  margin-top: 1.25rem;
+  margin-bottom: 1rem;
+}
+/* End About */
