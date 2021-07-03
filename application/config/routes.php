@@ -21,10 +21,15 @@ $route["edit_admin"] = "Admin/process_admin_edit";
 
 // Student Management
 $route["student_management"] = "Student/view_student_management";
+$route["view_student_detail"] = "Student/view_student_detail";
 $route["view_student_add"] = "Student/view_student_add";
 $route["student_detail"] = "Student/view_admin_detail";
+$route["process_student_add"] = "Student/process_student_add";
 
 // Category Management
 $route["category_management"] = "Category/view_category_management";
 $route["view_category_add"] = "Category/view_category_add";
+$route["view_category_edit"] = "Category/view_category_edit";
 $route["process_category_add"] = "Category/process_category_add";
+$route["process_category_edit"] = "Category/process_category_edit";
+$route["process_category_delete"] = "Category/process_category_delete";

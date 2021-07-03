@@ -1,7 +1,8 @@
 <div class="container-fluid dashboard">
     <?= $breadcrumb ?>
+    <?= $this->session->flashdata('message') ?>
     <h4>Tambah Siswa</h4>
-    <form action="" method="post">
+    <form action="<?= base_url("process_student_add")  ?>" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <div class="card">
@@ -9,13 +10,13 @@
                         <div class="mb-3 row">
                             <label for="studentName" class="col-sm-4 col-form-label">Nama Siswa</label>
                             <div class="col-sm-8">
-                                <input type="text" name="student_name" class="form-control" id="studentName">
+                                <input type="text" name="student_name" class="form-control" id="studentName" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="studentDob" class="col-sm-4 col-form-label">Tanggal Lahir</label>
                             <div class="col-sm-8">
-                                <input type="date" name="student_dob" value='<?= date("Y-d-m") ?>' class="form-control" id="studentDob">
+                                <input type="date" name="student_dob" value='<?= date("Y-d-m") ?>' class="form-control" id="studentDob" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -33,7 +34,7 @@
                         <div class="mb-3 row">
                             <label for="studentCategory" class="col-sm-4 col-form-label">Kategori Umur</label>
                             <div class="col-sm-8">
-                                <select name="category_id" id="studentCategory" class="form-control">
+                                <select name="category_id" id="studentCategory" class="form-control" required>
                                     <?php foreach ($category_list as $category) {
                                         echo "<option value='$category->category_id'>$category->category_name</option>";
                                     } ?>
@@ -74,24 +75,29 @@
                 </div>
             </div>
         </div>
-        <div class='btn btn-primary btn-md mb-3' id="addAchievementBtn">Tambah Prestasi</div>
         <div class="row">
             <div class="col-sm-12">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <th scope="col">Prestasi</th>
-                        <th scope="col">Tingkat</th>
-                        <th scope="col">Deskripsi</th>
-                        <th scope="col" style="width: 10%;">Aksi</th>
-                    </thead>
-                    <tbody id="achievementTable">
-                        <tr id="noData">
-                            <td colspan="5" class="text-center">Klik tambah prestasi untuk menambahkan baris</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="card">
+                    <div class="card-body">
+                        <div class='btn btn-primary btn-md mb-3' id="addAchievementBtn">Tambah Prestasi</div>
+                        <table class="table table-striped">
+                            <thead class="thead-dark">
+                                <th scope="col">Prestasi</th>
+                                <th scope="col">Tingkat</th>
+                                <th scope="col">Deskripsi</th>
+                                <th scope="col" style="width: 10%;">Aksi</th>
+                            </thead>
+                            <tbody id="achievementTable">
+                                <tr id="noData">
+                                    <td colspan="4" class="text-center">Klik tambah prestasi untuk menambahkan baris</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+        <button type="submit" class="btn btn-success btn-lg mb-3">Simpan</button>
     </form>
 </div>
 <script>

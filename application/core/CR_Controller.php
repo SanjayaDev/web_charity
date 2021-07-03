@@ -47,8 +47,10 @@ class CR_Controller extends CI_Controller
 
     if ($delete) {
       $breadcrumb = [
-        ["link" => $link,
-        "title" => $title]
+        [
+          "link" => $link,
+          "title" => $title
+        ]
       ];
       $this->session->set_userdata("breadcrumb", $breadcrumb);
     } else {
@@ -97,5 +99,15 @@ class CR_Controller extends CI_Controller
     $message = str_replace("<p>", "-", $message);
     $message = str_replace("</p>", ".", $message);
     return $message;
+  }
+
+  public function flash_message($message, $type)
+  {
+    if ($type == "success") {
+      $type = "info";
+    } else {
+      $type = "danger";
+    }
+    $this->session->set_flashdata("message", "<div class='alert alert-$type' role='alert'>$message</div>");
   }
 }

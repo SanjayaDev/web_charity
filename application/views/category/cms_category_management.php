@@ -1,5 +1,6 @@
 <div class="container-fluid dashboard">
     <?= $breadcrumb ?>
+    <?= $this->session->flashdata('message') ?>
     <h4>Kategori Umur Management</h4>
     <div class="card">
         <div class="card-body">
@@ -8,9 +9,9 @@
                 <table class="table table-bordered table-hover table-striped table-dark w-100">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th style="width: 5%;">No</th>
                             <th>Kategori Umur</th>
-                            <th>Action</th>
+                            <th style="width: 20%;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -21,7 +22,9 @@
                                     echo "<tr>";
                                     echo "<td>$index</td>";
                                     echo "<td>$category->category_name</td>";
-                                    echo "<td><button class='btn btn-primary btn-sm' onclick=\"navigateTo('category_detail?id=" . encrypt_url($item->student_id) . "')\"><i class='fas fa-search mr-2'></i>Detail</button></td>";
+                                    echo "<td><button class='btn btn-primary btn-sm' onclick=\"navigateTo('view_category_edit?id=$category->category_id')\"><i class='fas fa-search mr-2'></i>Edit</button>";
+                                    echo "<button class='btn btn-danger btn-sm ml-md-3 mt-md-0 d-md-table-cell d-sm-block' onclick=\"navigateTo('process_category_delete?id=$category->category_id')\">Delete</button>";
+                                    echo "</td>";
                                     echo "</tr>";
                                     $index++;
                                 }
@@ -37,3 +40,5 @@
         </div>
     </div>
 </div>
+<script>
+</script>

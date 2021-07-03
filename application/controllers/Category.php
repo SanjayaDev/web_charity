@@ -43,6 +43,59 @@ class Category extends CR_Controller
     {
         $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
         $input = (object) $this->input->post();
-        var_dump($input);
+        $check = $this->category_model->add_category($input);
+        if ($check->success == TRUE) {
+            $this->session->set_flashdata("message", "<div class='alert alert-success' role='alert'>$check->message</div>");
+            redirect("category_manegement");
+        } else {
+            $data["bounced"] = $input;
+            $this->session->set_flashdata("message", "<script>sweet('success', 'Sukses!', '$check->message')</script>");
+            redirect("view_category_add");
+        }
+    }
+
+    public function process_category_delete($data = FALSE)
+    {
+        $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
+        $id = $this->input->get("id");
+        $check = $this->category_model->delete_category($id);
+        if ($check->success == TRUE) {
+            $this->flash_message($check->message, "success");
+        } else {
+            $this->flash_message($check->message, "danger");
+        }
+        redirect("category_management");
+    }
+
+    public function view_category_edit($data = FALSE)
+    {
+        $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
+        $id = $this->input->get("id");
+        $check = $this->category_model->get_category_detail($id);
+        if ($check->found == TRUE) {
+            $data["category_info"] = $check->data;
+            $data["title"] = "Category Management";
+            $data["content"] = "category/cms_category_edit";
+            $data["breadcrumb"] = $this->draw_breadcrumb("Edit Kategori Umur", base_url("view_student_edit"));
+        } else {
+            $this->flash_message($check->message, "danger");
+            redirect("category_management");
+        }
+        $this->load->view("layout/wrapper", $data);
+    }
+
+    public function process_category_edit($data = FALSE)
+    {
+        $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
+        $input = (object) $this->input->post();
+        $check = $this->category_model->edit_category($input);
+        if ($check->success == TRUE) {
+            $this->flash_message($check->message, "success");
+            redirect("category_management");
+        } else {
+            $data["bounced"] = $input;
+            $this->flash_message($check->message, "danger");
+            redirect("view_category_edit");
+        }
     }
 }

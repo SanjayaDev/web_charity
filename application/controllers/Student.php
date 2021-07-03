@@ -40,4 +40,37 @@ class Student extends CR_Controller
         ];
         $this->load->view("layout/wrapper", $data);
     }
+
+    public function process_student_add($data = FALSE)
+    {
+        $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
+        $input = (object) $this->input->post();
+        $check = $this->student_model->add_student($input);
+        if ($check->success == TRUE) {
+            $this->flash_message($check->message, "success");
+            redirect("student_detail");
+        } else {
+            $data["bounced"] = $input;
+            $this->flash_message($check->message, "error");
+            redirect("view_student_add");
+        }
+    }
+
+    public function view_student_detail($data = FALSE)
+    {
+        $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
+        $id = $this->input->get("id");
+        $check = $this->student_model->get_student_detail($id);
+        if ($check->found == TRUE) {
+            $data["title"] = "Student Management";
+            $data["student_info"] = $check->data;
+            $data["achievement_list"] = $this->student_model->get_student_achievement_list($id);
+            $data["breadcrumb"] = $this->draw_breadcrumb("Info Siswa", base_url("student_detail"));
+            $data["content"] = "student/cms_student_detail";
+            $this->load->view("layout/wrapper", $data);
+        } else {
+            $this->flash_message($check->message, "error");
+            // redirect("student_management");
+        }
+    }
 }
