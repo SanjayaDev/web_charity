@@ -27,6 +27,36 @@ class Category_model extends CR_Model
         return $response;
     }
 
+    public function get_config()
+    {
+        $response = create_response();
+        $sql = "SELECT * FROM `list_config` WHERE `config_id` = 1";
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+            $response->found = TRUE;
+            $response->data = $query->row();
+        }
+        return $response;
+    }
+
+    public function update_config($input)
+    {
+        $response = create_response();
+        $sql = "UPDATE `list_config` "
+            . "SET `about` = ? "
+            . ", `address` = ? "
+            . ", `contact` = ? "
+            . "WHERE `config_id` = 1";
+        $query = $this->db->query($sql, [$input->about, $input->address, $input->contact]);
+        if ($query) {
+            $response->success = TRUE;
+            $response->message = "Update config success";
+        } else {
+            $response->message = "Update Config gagal";
+        }
+        return $response;
+    }
+
     public function edit_category($input)
     {
         $response = create_response();

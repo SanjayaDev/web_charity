@@ -23,14 +23,20 @@
 					</li>
 					<li>
 						<a href="<?= base_url("student_management") ?>" class="items <?= $title == "Student Management" ? "active" : FALSE; ?>">
-							<i class="fa fa-users"></i>
+							<i class="fas fa-user-graduate"></i>
 							<span>Siswa</span>
 						</a>
 					</li>
 					<li>
 						<a href="<?= base_url("category_management") ?>" class="items <?= $title == "Category Management" ? "active" : FALSE; ?>">
-							<i class="fa fa-users"></i>
+							<i class="fas fa-birthday-cake"></i>
 							<span>Kategori Umur</span>
+						</a>
+					</li>
+					<li>
+						<a href="<?= base_url("view_about_edit") ?>" class="items <?= $title == "About Management" ? "active" : FALSE; ?>">
+							<i class="fas fa-award"></i>
+							<span>Tentang</span>
 						</a>
 					</li>
 				</ul>

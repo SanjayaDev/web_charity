@@ -39,3 +39,7 @@ const closeMenu = () => {
   navbar.classList.remove("open");
   document.body.classList.remove("stop-scrolling");
 };
+
+const routeTo = (link) => {
+  window.location.href = link;
+};

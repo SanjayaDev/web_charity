@@ -110,4 +110,35 @@ class CR_Controller extends CI_Controller
     }
     $this->session->set_flashdata("message", "<div class='alert alert-$type' role='alert'>$message</div>");
   }
+
+  public function get_custom_data($key, $data = FALSE, $default = "1")
+  {
+    $found = FALSE;
+    $input = NULL;
+    if ($data !== FALSE) {
+      if (is_array($data)) {
+        if (array_key_exists($key, $data)) {
+          $input = $data[$key];
+          $found = TRUE;
+        }
+      } else if (is_object($data)) {
+        $converted = (array) $data;
+        if (array_key_exists($key, $converted)) {
+          $input = $converted[$key];
+          $found = TRUE;
+        }
+      }
+    }
+    if ($found === FALSE) {
+      $input = $this->input->get_post($key);
+      if (!empty($input)) {
+        $found = TRUE;
+      }
+    }
+    if ($found) {
+      return $input;
+    } else {
+      return $default;
+    }
+  }
 }

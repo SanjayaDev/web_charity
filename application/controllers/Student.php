@@ -48,7 +48,9 @@ class Student extends CR_Controller
         $check = $this->student_model->add_student($input);
         if ($check->success == TRUE) {
             $this->flash_message($check->message, "success");
-            redirect("student_detail");
+            $data["id"] = $check->student_id;
+            $this->view_student_detail($data);
+            // redirect("view_student_detail");
         } else {
             $data["bounced"] = $input;
             $this->flash_message($check->message, "error");
@@ -59,7 +61,7 @@ class Student extends CR_Controller
     public function view_student_detail($data = FALSE)
     {
         $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
-        $id = $this->input->get("id");
+        $id = $this->get_custom_data("id", $data, FALSE);
         $check = $this->student_model->get_student_detail($id);
         if ($check->found == TRUE) {
             $data["title"] = "Student Management";
@@ -72,5 +74,54 @@ class Student extends CR_Controller
             $this->flash_message($check->message, "error");
             // redirect("student_management");
         }
+    }
+
+    public function view_student_edit($data = FALSE)
+    {
+        $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
+        $id = $this->input->get("id");
+        $check = $this->student_model->get_student_detail($id);
+        if ($check->found == TRUE) {
+            $data["title"] = "Student Management";
+            $data["student_info"] = $check->data;
+            $data["achievement_list"] = $this->student_model->get_student_achievement_list($id);
+            $data["category_list"] = $this->student_model->get_category_list();
+            $data["level_list"] = $this->student_model->get_level_list();
+            $data["breadcrumb"] = $this->draw_breadcrumb("Edit Siswa", base_url("view_student_edit"));
+            $data["content"] = "student/cms_student_edit";
+            $this->load->view("layout/wrapper", $data);
+        } else {
+            $this->flash_message($check->message, "error");
+            // redirect("student_management");
+        }
+    }
+
+    public function process_student_edit($data = FALSE)
+    {
+        $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
+        $input = (object) $this->input->post();
+        $data["id"] = $input->student_id;
+        $check = $this->student_model->update_student($input);
+        if ($check->success == TRUE) {
+            $this->flash_message($check->message, "success");
+            $this->view_student_detail($data);
+            // redirect("view_student_detail");
+        } else {
+            $data["bounced"] = $input;
+            $this->flash_message($check->message, "error");
+            redirect("view_student_edit");
+        }
+    }
+
+    public function process_student_delete($data = FALSE)
+    {
+        $id = $this->input->get("id");
+        $check = $this->student_model->discontinue_student($id);
+        if ($check->success) {
+            $this->flash_message($check->message, "success");
+        } else {
+            $this->flash_message($check->message, "error");
+        }
+        redirect('student_management');
     }
 }

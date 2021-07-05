@@ -14,7 +14,7 @@
                             <th>Umur</th>
                             <th>Sekolah</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th style="width: 20%;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,7 +28,9 @@
                                     echo "<td>$student->student_age</td>";
                                     echo "<td>$student->student_school</td>";
                                     echo "<td>$student->student_status</td>";
-                                    echo "<td><button class='btn btn-primary btn-sm' onclick=\"navigateTo('view_student_detail?id=$student->student_id')\"><i class='fas fa-search mr-2'></i>Detail</button></td>";
+                                    echo "<td><button class='btn btn-primary btn-sm' onclick=\"navigateTo('view_student_detail?id=$student->student_id')\"><i class='fas fa-search mr-2'></i>Detail</button>";
+                                    echo "<button class='btn btn-danger btn-sm ml-md-3 mt-md-0 d-md-table-cell d-sm-block' onclick=\"navigateTo('process_student_delete?id=$student->student_id')\">Delete</button>";
+                                    echo "</td>";
                                     echo "</tr>";
                                     $index++;
                                 }

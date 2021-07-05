@@ -23,8 +23,10 @@ $route["edit_admin"] = "Admin/process_admin_edit";
 $route["student_management"] = "Student/view_student_management";
 $route["view_student_detail"] = "Student/view_student_detail";
 $route["view_student_add"] = "Student/view_student_add";
-$route["student_detail"] = "Student/view_admin_detail";
+$route["view_student_edit"] = "Student/view_student_edit";
 $route["process_student_add"] = "Student/process_student_add";
+$route["process_student_edit"] = "Student/process_student_edit";
+$route["process_student_delete"] = "Student/process_student_delete";
 
 // Category Management
 $route["category_management"] = "Category/view_category_management";
@@ -33,3 +35,7 @@ $route["view_category_edit"] = "Category/view_category_edit";
 $route["process_category_add"] = "Category/process_category_add";
 $route["process_category_edit"] = "Category/process_category_edit";
 $route["process_category_delete"] = "Category/process_category_delete";
+$route["process_about_edit"] = "Category/process_about_edit";
+$route["view_about_edit"] = "Category/view_about_edit";
+
+$route["public_student"] = "welcome/student_detail";

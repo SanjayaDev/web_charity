@@ -82,6 +82,13 @@ ul {
 .lds-ring div:nth-child(3) {
   animation-delay: -0.15s;
 }
+.icon-edit {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 35px;
+  cursor: pointer;
+}
 @keyframes lds-ring {
   0% {
     transform: rotate(0deg);

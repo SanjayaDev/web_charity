@@ -98,4 +98,29 @@ class Category extends CR_Controller
             redirect("view_category_edit");
         }
     }
+
+    public function view_about_edit($data = FALSE)
+    {
+        $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
+        $check = $this->category_model->get_config();
+        $data["config"] = $check->data;
+        $data["title"] = "About Management";
+        $data["content"] = "category/cms_about_edit";
+        $data["breadcrumb"] = $this->draw_breadcrumb("Edit Tentang", base_url("view_about_edit"));
+        $this->load->view("layout/wrapper", $data);
+    }
+
+    public function process_about_edit($data = FALSE)
+    {
+        $this->htaccess("WHITE_LIST", ["System Administrator|100|1"], FALSE);
+        $input = (object) $this->input->post();
+        $check = $this->category_model->update_config($input);
+        if ($check->success == TRUE) {
+            $this->flash_message($check->message, "success");
+        } else {
+            $data["bounced"] = $input;
+            $this->flash_message($check->message, "danger");
+        }
+        redirect("view_about_edit");
+    }
 }

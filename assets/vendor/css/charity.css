@@ -59,6 +59,11 @@ img {
   color: var(--dark-lighter);
   line-height: 1.6;
 }
+.desc {
+  font-size: 1rem;
+  color: var(--dark-lighter);
+  line-height: 1.6;
+}
 .column-1 {
   margin-right: 1.5rem;
 }
@@ -466,7 +471,7 @@ nav.open .links {
   margin: 1.5rem 0;
 }
 .grid-item {
-  width: 33.33%;
+  width: 25%;
   padding: 1rem 1.2rem;
   display: flex;
   justify-content: center;
@@ -699,6 +704,9 @@ footer {
 @media (max-width: 1280px) {
   .text {
     font-size: 1rem;
+  }
+  .desc {
+    font-size: 0.9rem;
   }
 
   .title {

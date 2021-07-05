@@ -4,6 +4,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-6">
             <div class="card">
+                <i class="fas fa-edit icon-edit" onclick="navigateTo('view_student_edit?id=<?= $student_info->student_id; ?>')"></i>
                 <div class="card-body">
                     <h3 class="display-4"><?= $student_info->student_name ?></h3>
                     <dl class="row">

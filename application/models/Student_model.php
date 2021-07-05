@@ -14,7 +14,7 @@ class Student_model extends CR_Model
             . "FROM `list_student` ls "
             . "JOIN `list_category` lc ON lc.`category_id` = ls.`category_id` "
             . "JOIN `list_student_status` lss ON lss.`student_status_id` = ls.`student_status_id` "
-            . "WHERE lc.`is_active` = 1";
+            . "WHERE lc.`is_active` = 1 AND ls.`student_status_id` = 1";
         $query = $this->db->query($sql);
         if ($query) {
             return $query->result();
@@ -34,79 +34,175 @@ class Student_model extends CR_Model
         }
     }
 
+    public function get_student_related_age($category_id)
+    {
+        $sql = "SELECT * "
+            . "FROM `list_student` ls "
+            . "JOIN `list_category` lc ON lc.`category_id` = ls.`category_id` "
+            . "JOIN `list_student_status` lss ON lss.`student_status_id` = ls.`student_status_id` "
+            . "WHERE lc.`is_active` = 1 AND ls.`student_status_id` = 1 AND ls.`category_id` = ?";
+        $query = $this->db->query($sql, [$category_id]);
+        if ($query) {
+            return $query->result();
+        } else {
+            return FALSE;
+        }
+    }
+
     public function add_student($input)
     {
         $response = create_response();
-        $duplicate = $this->check_duplicate("list_student", "student_name", $input->student_name);
-        if ($duplicate == FALSE) {
-            $check_file = $this->prepare_temp_image("student_photo", FALSE);
-            if ($check_file->valid) {
-                $birthdate = explode("-", $input->student_dob);
-                $student_age = (date("md", date("U", mktime(0, 0, 0, $birthdate[1], $birthdate[2], $birthdate[0]))) > date("md") ? ((date("Y") - $birthdate[0]) - 1) : (date("Y") - $birthdate[0]));
-                $this->db->trans_begin();
-                $sql = "INSERT INTO `list_student` "
-                    . "(`student_name`, `student_dob`, `student_trustee`, `student_address`, `category_id`, `student_school`, `note`, `student_age`, `student_status_id`) VALUES "
-                    . "(?, ?, ?, ?, ?, ?, ?, ?, 1)";
-                $query = $this->db->query($sql, [$input->student_name, $input->student_dob, $input->student_trustee, $input->student_address, $input->category_id, $input->student_school, $input->student_note, $student_age]);
-                if ($query) {
-                    $response->student_id = $this->db->insert_id();
-                    if ($check_file->uploaded) {
-                        $file_name = "STUDENT_" . $response->student_id . "_" . time();
-                        $photo_path = base_url() . "uploads/" . $file_name . "." . $check_file->extension;
-                        $this->prepare_final_image("./uploads/", $file_name, TRUE);
-                        if ($this->upload->do_upload('student_photo')) {
-                            $upload_success = TRUE;
-                            $sql = "UPDATE `list_student` SET `file_path` = ? WHERE `student_id` = ?";
-                            $query = $this->db->query($sql, [$photo_path, $response->student_id]);
-                        } else {
-                            $upload_success = FALSE;
-                        }
+        $check_file = $this->prepare_temp_image("student_photo", FALSE);
+        if ($check_file->valid) {
+            $birthdate = explode("-", $input->student_dob);
+            $student_age = (date("md", date("U", mktime(0, 0, 0, $birthdate[1], $birthdate[2], $birthdate[0]))) > date("md") ? ((date("Y") - $birthdate[0]) - 1) : (date("Y") - $birthdate[0]));
+            $this->db->trans_begin();
+            $sql = "INSERT INTO `list_student` "
+                . "(`student_name`, `student_dob`, `student_trustee`, `student_address`, `category_id`, `student_school`, `note`, `student_age`, `student_status_id`) VALUES "
+                . "(?, ?, ?, ?, ?, ?, ?, ?, 1)";
+            $query = $this->db->query($sql, [$input->student_name, $input->student_dob, $input->student_trustee, $input->student_address, $input->category_id, $input->student_school, $input->student_note, $student_age]);
+            if ($query) {
+                $response->student_id = $this->db->insert_id();
+                if ($check_file->uploaded) {
+                    $file_name = "STUDENT_" . $response->student_id . "_" . time();
+                    $photo_path = base_url() . "uploads/" . $file_name . "." . $check_file->extension;
+                    $this->prepare_final_image("./uploads/", $file_name, TRUE);
+                    if ($this->upload->do_upload('student_photo')) {
+                        $upload_success = TRUE;
+                        $sql = "UPDATE `list_student` SET `file_path` = ? WHERE `student_id` = ?";
+                        $query = $this->db->query($sql, [$photo_path, $response->student_id]);
                     } else {
-                        $upload_success = true;
-                    }
-                    if ($upload_success == TRUE) {
-                        $response->message = "Upload photo success";
-                    } else {
-                        $response->message = "Upload photo failed";
-                    }
-                    if (isset($input->achievement_name) && is_array($input->achievement_name)) {
-                        $value_sql = "";
-                        $delimeter = "";
-                        for ($i = 0; $i < count($input->achievement_name); $i++) {
-                            $value_sql .= $delimeter . "(" . $this->db->escape($input->achievement_name[$i]);
-                            $value_sql .= ", " . $this->db->escape($input->level_id[$i]);
-                            $value_sql .= ", " . $response->student_id;
-                            $value_sql .= ", " . $this->db->escape($input->description[$i]);
-                            $value_sql .= ")";
-                            $delimeter = ", ";
-                        }
-                        if ($value_sql != "") {
-                            $sql = "INSERT INTO `list_achievement` "
-                                . "(`achievement_name`, `level_id`, `student_id`, `description`) VALUES "
-                                . $value_sql;
-                            $query = $this->db->query($sql);
-                            if (!$query) {
-                                $response->message = "Gagal input achievement";
-                            }
-                        }
+                        $upload_success = FALSE;
                     }
                 } else {
-                    $response->message = "Query failed";
+                    $upload_success = true;
                 }
-                if ($this->db->trans_status() == TRUE) {
-                    $response->success = TRUE;
-                    $response->message = "Sukses menambahkan siswa";
-                    $this->db->trans_commit();
+                if ($upload_success == TRUE) {
+                    $response->message = "Upload photo success";
                 } else {
-                    $this->db->trans_rollback();
+                    $response->message = "Upload photo failed";
+                }
+                if (isset($input->achievement_name) && is_array($input->achievement_name)) {
+                    $value_sql = "";
+                    $delimeter = "";
+                    for ($i = 0; $i < count($input->achievement_name); $i++) {
+                        $value_sql .= $delimeter . "(" . $this->db->escape($input->achievement_name[$i]);
+                        $value_sql .= ", " . $this->db->escape($input->level_id[$i]);
+                        $value_sql .= ", " . $response->student_id;
+                        $value_sql .= ", " . $this->db->escape($input->description[$i]);
+                        $value_sql .= ")";
+                        $delimeter = ", ";
+                    }
+                    if ($value_sql != "") {
+                        $sql = "INSERT INTO `list_achievement` "
+                            . "(`achievement_name`, `level_id`, `student_id`, `description`) VALUES "
+                            . $value_sql;
+                        $query = $this->db->query($sql);
+                        if (!$query) {
+                            $response->message = "Gagal input achievement";
+                        }
+                    }
                 }
             } else {
-                $response->message = "Input file invalid";
+                $response->message = "Query failed";
+            }
+            if ($this->db->trans_status() == TRUE) {
+                $response->success = TRUE;
+                $response->message = "Sukses menambahkan siswa";
+                $this->db->trans_commit();
+            } else {
+                $this->db->trans_rollback();
             }
         } else {
-            $response->message = "Siswa sudah terdaftar di database";
+            $response->message = "Input file invalid";
+        }
+
+        return $response;
+    }
+
+    public function update_student($input)
+    {
+        $response = create_response();
+        $check_file = $this->prepare_temp_image("student_photo", FALSE);
+        if ($check_file->valid) {
+            $birthdate = explode("-", $input->student_dob);
+            $student_age = (date("md", date("U", mktime(0, 0, 0, $birthdate[1], $birthdate[2], $birthdate[0]))) > date("md") ? ((date("Y") - $birthdate[0]) - 1) : (date("Y") - $birthdate[0]));
+            $this->db->trans_begin();
+            $sql = "UPDATE `list_student` "
+                . "SET `student_name` = ? "
+                . ", `student_dob` = ? "
+                . ", `student_trustee` = ? "
+                . ", `category_id` = ? "
+                . ", `student_school` = ? "
+                . ", `note` = ? "
+                . ", `student_age` = ? "
+                . "WHERE `student_id` = ?";
+            $query = $this->db->query($sql, [$input->student_name, $input->student_dob, $input->student_trustee, $input->category_id, $input->student_school, $input->student_note, $student_age, $input->student_id]);
+            if ($query) {
+                if ($check_file->uploaded) {
+                    $file_name = "STUDENT_" . $input->student_id . "_" . time();
+                    $photo_path = base_url() . "uploads/" . $file_name . "." . $check_file->extension;
+                    $this->prepare_final_image("./uploads/", $file_name, TRUE);
+                    if ($this->upload->do_upload('student_photo')) {
+                        $upload_success = TRUE;
+                        $sql = "UPDATE `list_student` SET `file_path` = ? WHERE `student_id` = ?";
+                        $query = $this->db->query($sql, [$photo_path, $input->student_id]);
+                    } else {
+                        $upload_success = FALSE;
+                    }
+                } else {
+                    $upload_success = true;
+                }
+                if ($upload_success == TRUE) {
+                    $response->message = "Upload photo success";
+                } else {
+                    $response->message = "Upload photo failed";
+                }
+                $this->remove_achievement_item($input->student_id);
+                if (isset($input->achievement_name) && is_array($input->achievement_name)) {
+                    $value_sql = "";
+                    $delimeter = "";
+                    for ($i = 0; $i < count($input->achievement_name); $i++) {
+                        $value_sql .= $delimeter . "(" . $this->db->escape($input->achievement_name[$i]);
+                        $value_sql .= ", " . $this->db->escape($input->level_id[$i]);
+                        $value_sql .= ", " . $input->student_id;
+                        $value_sql .= ", " . $this->db->escape($input->description[$i]);
+                        $value_sql .= ")";
+                        $delimeter = ", ";
+                    }
+                    if ($value_sql != "") {
+                        $sql = "INSERT INTO `list_achievement` "
+                            . "(`achievement_name`, `level_id`, `student_id`, `description`) VALUES "
+                            . $value_sql;
+                        $query = $this->db->query($sql);
+                        if (!$query) {
+                            $response->message = "Gagal input achievement";
+                        }
+                    }
+                }
+            } else {
+                $response->message = "Query failed";
+            }
+            if ($this->db->trans_status() == TRUE) {
+                $response->success = TRUE;
+                $response->message = "Sukses mengupdate siswa";
+                $this->db->trans_commit();
+            } else {
+                $this->db->trans_rollback();
+            }
+        } else {
+            $response->message = "Input invalid";
         }
         return $response;
+    }
+
+    public function remove_achievement_item($student_id)
+    {
+        $sql = "DELETE FROM `list_achievement` WHERE `student_id` = ?";
+        $query = $this->db->query($sql, [$student_id]);
+        if (!$query) {
+            log_message("ERROR", "Gagal delete item");
+        }
     }
 
     public function get_level_list()
@@ -118,6 +214,20 @@ class Student_model extends CR_Model
         } else {
             return FALSE;
         }
+    }
+
+    public function discontinue_student($student_id)
+    {
+        $response = create_response();
+        $sql = "UPDATE `list_student` SET `student_status_id` = 2 WHERE `student_id` = ?";
+        $query = $this->db->query($sql, [$student_id]);
+        if ($query) {
+            $response->success = TRUE;
+            $response->message = "Sukses menghapus data siswa";
+        } else {
+            $response->message = "Gagal menghapus data siswa";
+        }
+        return $response;
     }
 
     public function get_student_detail($student_id)
