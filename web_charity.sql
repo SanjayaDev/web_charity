@@ -293,6 +293,19 @@ INSERT INTO `list_student_status` (`student_status_id`, `student_status`) VALUES
 	(2, 'Discontinue');
 /*!40000 ALTER TABLE `list_student_status` ENABLE KEYS */;
 
+-- Added date 12 Juli 2021
+ALTER TABLE `list_student`
+	ADD COLUMN `student_gender` VARCHAR(50) NOT NULL AFTER `student_name`,
+	ADD COLUMN `student_education` VARCHAR(50) NOT NULL AFTER `student_gender`,
+	ADD COLUMN `student_class` VARCHAR(50) NOT NULL AFTER `student_education`,
+	ADD COLUMN `father_profesion` VARCHAR(150) NOT NULL DEFAULT '' AFTER `file_path`,
+	ADD COLUMN `mother_profesion` VARCHAR(150) NOT NULL DEFAULT '' AFTER `father_profesion`,
+	DROP COLUMN `student_dob`,
+	DROP COLUMN `student_trustee`,
+	DROP COLUMN `student_school`;
+
+ALTER TABLE `list_student`
+	CHANGE COLUMN `note` `student_note` TEXT NOT NULL COLLATE 'utf8mb4_general_ci' AFTER `category_id`;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

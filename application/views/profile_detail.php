@@ -37,8 +37,8 @@
                 <div class="section-body grid-2">
                     <div class="column-1">
                         <h3 class="title-sm">Biodata</h3>
-                        <p class="text">Lahir pada tanggal <?= date("d-m-Y", strtotime($student_info->student_dob)); ?>, Anak yang berumur <?= $student_info->student_age ?> Tahun ini mengenyam pendidikan di <?= $student_info->student_school; ?>, saat ini tinggal di <?= $student_info->student_address; ?></p>
-                        <p class="text"><?= $student_info->note; ?></p>
+                        <p class="text"><?= "Siswa bernama $student_info->student_name berumur $student_info->student_age tahun. Saat ini sedang menempuh pendidikan tingkat $student_info->student_education kelas $student_info->student_class. Saat ini $student_info->student_name bertempat tinggalkan di $student_info->student_address"; ?></p>
+                        <p class="text" style="margin-top: 20px;"><?= $student_info->student_note; ?></p>
                         <h3 class="title-sm">Prestasi</h3>
                         <?php if (isset($achievement_list) && is_array($achievement_list)) {
                             if (count($achievement_list) > 0) {
@@ -50,8 +50,9 @@
                                 echo "<p class='text'>Tidak ada prestasi</p>";
                             }
                         } ?>
-                        <h3 class="title-sm">Wali</h3>
-                        <p class="text"><?= $student_info->student_trustee; ?></p>
+                        <h3 class="title-sm">Pekerjaan Orang Tua</h3>
+                        <p class="text"><?= "Ayah : $student_info->father_profesion"; ?></p>
+                        <p class="text"><?= "Ibu : $student_info->mother_profesion"; ?></p>
                     </div>
                     <div class="column-2 image">
                         <img src="<?= $student_info->file_path; ?>" class="z-index" alt="">

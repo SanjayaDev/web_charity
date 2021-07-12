@@ -6,39 +6,45 @@
             <div class="card">
                 <i class="fas fa-edit icon-edit" onclick="navigateTo('view_student_edit?id=<?= $student_info->student_id; ?>')"></i>
                 <div class="card-body">
-                    <h3 class="display-4"><?= $student_info->student_name ?></h3>
-                    <dl class="row">
-                        <dt class="col-sm-3">Tanggal Lahir</dt>
-                        <dd class="col-sm-9"><?= date("d M Y", strtotime($student_info->student_dob)); ?></dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="col-sm-3">Umur</dt>
-                        <dd class="col-sm-9"><?= $student_info->student_age; ?></dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="col-sm-3">Wali Siswa</dt>
-                        <dd class="col-sm-9"><?= $student_info->student_trustee; ?></dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="col-sm-3">Alamat</dt>
-                        <dd class="col-sm-9"><?= $student_info->student_address; ?></dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="col-sm-3">Kategori Umur</dt>
-                        <dd class="col-sm-9"><?= $student_info->category_name; ?></dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="col-sm-3">Sekolah</dt>
-                        <dd class="col-sm-9"><?= $student_info->student_school; ?></dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="col-sm-3">Note</dt>
-                        <dd class="col-sm-9"><?= $student_info->note; ?></dd>
-                    </dl>
-                    <dl class="row">
-                        <dt class="col-sm-3">Status</dt>
-                        <dd class="col-sm-9"><?= $student_info->student_status; ?></dd>
-                    </dl>
+                    <h4 class="display-4"><?= $student_info->student_name ?></h4>
+                    <table class="table">
+                        <tr>
+                            <td>Jenis Kelamin</td>
+                            <td>: <?= $student_info->student_gender; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Umur</td>
+                            <td>: <?= $student_info->student_age; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Kategori Umur</td>
+                            <td>: <?= $student_info->category_name; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Pendidikan</td>
+                            <td>: <?= $student_info->student_education; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Kelas</td>
+                            <td>: <?= $student_info->student_class; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Pekerjaan Ayah</td>
+                            <td>: <?= $student_info->father_profesion; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Pekerjaan Ibu</td>
+                            <td>: <?= $student_info->mother_profesion; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Alamat</td>
+                            <td>: <?= $student_info->student_address; ?></td>
+                        </tr>
+                        <tr>
+                            <td>Note</td>
+                            <td>: <?= $student_info->student_note; ?></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

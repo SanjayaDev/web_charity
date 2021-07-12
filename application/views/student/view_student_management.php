@@ -6,14 +6,13 @@
         <div class="card-body">
             <button class="btn btn-success btn-sm mb-4" onclick="navigateTo('view_student_add')"><i class="fas fa-plus mr-1"></i>Tambah Siswa</button>
             <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped table-dark w-100">
+                <table class="table table-bordered table-hover table-striped table-dark w-100" id="tableStudent">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
                             <th>Umur</th>
-                            <th>Sekolah</th>
-                            <th>Status</th>
+                            <th>Pendidikan</th>
                             <th style="width: 20%;">Action</th>
                         </tr>
                     </thead>
@@ -26,8 +25,7 @@
                                     echo "<td>$index</td>";
                                     echo "<td>$student->student_name</td>";
                                     echo "<td>$student->student_age</td>";
-                                    echo "<td>$student->student_school</td>";
-                                    echo "<td>$student->student_status</td>";
+                                    echo "<td>$student->student_education</td>";
                                     echo "<td><button class='btn btn-primary btn-sm' onclick=\"navigateTo('view_student_detail?id=$student->student_id')\"><i class='fas fa-search mr-2'></i>Detail</button>";
                                     echo "<button class='btn btn-danger btn-sm ml-md-3 mt-md-0 d-md-table-cell d-sm-block' onclick=\"navigateTo('process_student_delete?id=$student->student_id')\">Delete</button>";
                                     echo "</td>";
@@ -48,10 +46,5 @@
 </div>
 
 <script>
-    // const table = getDataTable("tableStudent", "get_student");
-
-    // function submitAdmin(formId, e) {
-    //     e.preventDefault();
-    //     sendData(formId, "add_admin", "modalAdd", table);
-    // }
+    const table = dataTable("tableStudent");
 </script>

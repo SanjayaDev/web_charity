@@ -2,34 +2,31 @@
     <?= $breadcrumb ?>
     <?= $this->session->flashdata('message') ?>
     <h4>Tambah Siswa</h4>
-    <form action="<?= base_url("process_student_edit")  ?>" method="post" enctype="multipart/form-data">
+    <form action="<?= base_url("process_student_edit")  ?>" method="post" enctype="multipart/form-data" onsubmit="loadRequest()">
         <input type="hidden" name="student_id" value="<?= $student_info->student_id; ?>">
         <div class="row">
             <div class="col-sm-12 col-md-6">
-                <div class="card">
+            <div class="card">
                     <div class="card-body">
                         <div class="mb-3 row">
                             <label for="studentName" class="col-sm-4 col-form-label">Nama Siswa</label>
                             <div class="col-sm-8">
-                                <input type="text" name="student_name" class="form-control" id="studentName" value="<?= (isset($bounced)) ? $bounced->student_name : $student_info->student_name; ?>" required>
+                                <input type="text" name="student_name" class="form-control" id="studentName" value="<?= $student_info->student_name; ?>" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="studentDob" class="col-sm-4 col-form-label">Tanggal Lahir</label>
+                            <label for="studentName" class="col-sm-4 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-8">
-                                <input type="date" name="student_dob" value='<?= (isset($bounced)) ? date("Y-d-m", strtotime($bounced->student_dob)) : date("Y-d-m", strtotime($student_info->student_dob)) ?>' class="form-control" id="studentDob" required>
+                                <select name="student_gender" class="form-control">
+                                    <option <?= $student_info->student_gender == "Laki-laki" ? "selected" : ""; ?> value="Laki-laki">Laki-laki</option>
+                                    <option <?= $student_info->student_gender == "Perempuan" ? "selected" : ""; ?> value="Perempuan">Perempuan</option>
+                                </select>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="studentTrustee" class="col-sm-4 col-form-label">Nama Wali</label>
+                            <label for="studentDob" class="col-sm-4 col-form-label">Umur</label>
                             <div class="col-sm-8">
-                                <input type="text" name="student_trustee" class="form-control" id="studentTrustee" value="<?= (isset($bounced)) ? $bounced->student_trustee : $student_info->student_trustee; ?>">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="studentSchool" class="col-sm-4 col-form-label">Sekolah</label>
-                            <div class="col-sm-8">
-                                <input type="text" name="student_school" class="form-control" id="studentSchool" value="<?= (isset($bounced)) ? $bounced->student_school : $student_info->student_school; ?>">
+                                <input type="number" name="student_age" class="form-control" id="studentDob" value="<?= $student_info->student_age; ?>" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -37,13 +34,34 @@
                             <div class="col-sm-8">
                                 <select name="category_id" id="studentCategory" class="form-control" required>
                                     <?php foreach ($category_list as $category) {
-                                        if ($student_info->category_id == $category->category_id) {
-                                            echo "<option value='$category->category_id' selected>$category->category_name</option>";
-                                        } else {
-                                            echo "<option value='$category->category_id'>$category->category_name</option>";
-                                        }
+                                        $selected = $category->category_id == $student_info->category_id ? "selected" : "";
+                                        echo "<option $selected value='$category->category_id'>$category->category_name</option>";
                                     } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="studentSchool" class="col-sm-4 col-form-label">Pendidikan</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="student_education" class="form-control" value="<?= $student_info->student_education; ?>" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="studentSchool" class="col-sm-4 col-form-label">Kelas</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="student_class" class="form-control" value="<?= $student_info->student_class; ?>" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="studentSchool" class="col-sm-4 col-form-label">Pekerjaan Ayah</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="father_profesion" class="form-control" value="<?= $student_info->father_profesion; ?>" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="studentSchool" class="col-sm-4 col-form-label">Pekerjaan Ibu</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="mother_profesion" class="form-control" value="<?= $student_info->mother_profesion; ?>" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -60,13 +78,13 @@
                         <div class="mb-3 row">
                             <label for="studentAddress" class="col-sm-4 col-form-label">Alamat</label>
                             <div class="col-sm-8">
-                                <textarea rows="3" name="student_address" class="form-control" id="studentAddress"><?= (isset($bounced)) ? $bounced->student_address : $student_info->student_address; ?></textarea>
+                                <textarea rows="3" name="student_address" class="form-control" id="studentAddress"><?= $student_info->student_address; ?></textarea>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="studentnote" class="col-sm-4 col-form-label">Catatan</label>
                             <div class="col-sm-8">
-                                <textarea rows="3" name="student_note" class="form-control" id="studentNote"><?= (isset($bounced)) ? $bounced->student_note : $student_info->note; ?></textarea>
+                                <textarea rows="3" name="student_note" class="form-control" id="studentNote"><?= $student_info->student_note; ?></textarea>
                             </div>
                         </div>
                     </div>

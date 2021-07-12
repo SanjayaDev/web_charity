@@ -67,7 +67,7 @@ class Student extends CR_Controller
             $data["title"] = "Student Management";
             $data["student_info"] = $check->data;
             $data["achievement_list"] = $this->student_model->get_student_achievement_list($id);
-            $data["breadcrumb"] = $this->draw_breadcrumb("Info Siswa", base_url("student_detail"));
+            $data["breadcrumb"] = $this->draw_breadcrumb("Info Siswa", base_url("view_student_detail?id=$id"));
             $data["content"] = "student/cms_student_detail";
             $this->load->view("layout/wrapper", $data);
         } else {
@@ -104,8 +104,8 @@ class Student extends CR_Controller
         $check = $this->student_model->update_student($input);
         if ($check->success == TRUE) {
             $this->flash_message($check->message, "success");
-            $this->view_student_detail($data);
-            // redirect("view_student_detail");
+            // $this->view_student_detail($data);
+            redirect("view_student_detail?id=$input->student_id");
         } else {
             $data["bounced"] = $input;
             $this->flash_message($check->message, "error");

@@ -8,7 +8,7 @@
  * because if one is missing in the original dwadmin javascript it will fall apart
  */
 
-const baseUrl = "http://localhost/web_charity/";
+const baseUrl = "http://localhost/CI/web_charity/";
 
 const dataTable = (tableId) => {
   let data = $(`#${tableId}`).DataTable({

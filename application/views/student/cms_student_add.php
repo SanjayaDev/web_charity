@@ -2,7 +2,7 @@
     <?= $breadcrumb ?>
     <?= $this->session->flashdata('message') ?>
     <h4>Tambah Siswa</h4>
-    <form action="<?= base_url("process_student_add")  ?>" method="post" enctype="multipart/form-data">
+    <form action="<?= base_url("process_student_add")  ?>" method="post" enctype="multipart/form-data" onsubmit="loadRequest()">
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <div class="card">
@@ -14,21 +14,18 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="studentDob" class="col-sm-4 col-form-label">Tanggal Lahir</label>
+                            <label for="studentName" class="col-sm-4 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-8">
-                                <input type="date" name="student_dob" value='<?= date("Y-d-m") ?>' class="form-control" id="studentDob" required>
+                                <select name="student_gender" class="form-control">
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="studentTrustee" class="col-sm-4 col-form-label">Nama Wali</label>
+                            <label for="studentDob" class="col-sm-4 col-form-label">Umur</label>
                             <div class="col-sm-8">
-                                <input type="text" name="student_trustee" class="form-control" id="studentTrustee">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="studentSchool" class="col-sm-4 col-form-label">Sekolah</label>
-                            <div class="col-sm-8">
-                                <input type="text" name="student_school" class="form-control" id="studentSchool">
+                                <input type="number" name="student_age" class="form-control" id="studentDob" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -39,6 +36,30 @@
                                         echo "<option value='$category->category_id'>$category->category_name</option>";
                                     } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="studentSchool" class="col-sm-4 col-form-label">Pendidikan</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="student_education" class="form-control" id="studentSchool">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="studentSchool" class="col-sm-4 col-form-label">Kelas</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="student_class" class="form-control" id="studentSchool">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="studentSchool" class="col-sm-4 col-form-label">Pekerjaan Ayah</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="father_profesion" class="form-control" id="studentSchool">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="studentSchool" class="col-sm-4 col-form-label">Pekerjaan Ibu</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="mother_profesion" class="form-control" id="studentSchool">
                             </div>
                         </div>
                         <div class="mb-3 row">

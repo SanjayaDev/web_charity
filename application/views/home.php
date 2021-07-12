@@ -34,15 +34,15 @@
         </header>
         <section class="intro" id="intro">
             <div class="overlay overlay-lg">
-                <img src="<?= base_url("assets/vendor/images") ?> /shape/square.png" class="shape square" alt="decoration1">
-                <img src="<?= base_url("assets/vendor/images") ?> /shape/circle.png" class="shape circle" alt="decoration2">
-                <img src="<?= base_url("assets/vendor/images") ?> /shape/half-circle.png" class="shape half-circle1" alt="decoration3">
-                <img src="<?= base_url("assets/vendor/images") ?> /shape/half-circle.png" class="shape half-circle2" alt="decoration4">
-                <img src="<?= base_url("assets/vendor/images") ?> /shape/x.png" class="shape xshape" alt="decoration5">
-                <img src="<?= base_url("assets/vendor/images") ?> /shape/wave.png" class="shape wave wave1" alt="decoration">
-                <img src="<?= base_url("assets/vendor/images") ?> /shape/wave.png" class="shape wave wave2" alt="decoration">
-                <img src="<?= base_url("assets/vendor/images") ?> /shape/triangle.png" class="shape triangle" alt="decoration">
-                <img src="<?= base_url("assets/vendor/images") ?> /shape/points1.png" class="points point1" alt="decoration">
+                <img src="<?= base_url("assets/vendor/images") ?>/shape/square.png" class="shape square" alt="decoration1">
+                <img src="<?= base_url("assets/vendor/images") ?>/shape/circle.png" class="shape circle" alt="decoration2">
+                <img src="<?= base_url("assets/vendor/images") ?>/shape/half-circle.png" class="shape half-circle1" alt="decoration3">
+                <img src="<?= base_url("assets/vendor/images") ?>/shape/half-circle.png" class="shape half-circle2" alt="decoration4">
+                <img src="<?= base_url("assets/vendor/images") ?>/shape/x.png" class="shape xshape" alt="decoration5">
+                <img src="<?= base_url("assets/vendor/images") ?>/shape/wave.png" class="shape wave wave1" alt="decoration">
+                <img src="<?= base_url("assets/vendor/images") ?>/shape/wave.png" class="shape wave wave2" alt="decoration">
+                <img src="<?= base_url("assets/vendor/images") ?>/shape/triangle.png" class="shape triangle" alt="decoration">
+                <img src="<?= base_url("assets/vendor/images") ?>/shape/points1.png" class="points point1" alt="decoration">
             </div>
             <div class="container grid-2">
                 <div class="column-1">

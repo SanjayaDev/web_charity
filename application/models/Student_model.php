@@ -13,8 +13,8 @@ class Student_model extends CR_Model
         $sql = "SELECT * "
             . "FROM `list_student` ls "
             . "JOIN `list_category` lc ON lc.`category_id` = ls.`category_id` "
-            . "JOIN `list_student_status` lss ON lss.`student_status_id` = ls.`student_status_id` "
-            . "WHERE lc.`is_active` = 1 AND ls.`student_status_id` = 1";
+            // . "JOIN `list_student_status` lss ON lss.`student_status_id` = ls.`student_status_id` "
+            . "WHERE lc.`is_active` = 1";
         $query = $this->db->query($sql);
         if ($query) {
             return $query->result();
@@ -39,8 +39,8 @@ class Student_model extends CR_Model
         $sql = "SELECT * "
             . "FROM `list_student` ls "
             . "JOIN `list_category` lc ON lc.`category_id` = ls.`category_id` "
-            . "JOIN `list_student_status` lss ON lss.`student_status_id` = ls.`student_status_id` "
-            . "WHERE lc.`is_active` = 1 AND ls.`student_status_id` = 1 AND ls.`category_id` = ?";
+            // . "JOIN `list_student_status` lss ON lss.`student_status_id` = ls.`student_status_id` "
+            . "WHERE lc.`is_active` = 1 AND ls.`category_id` = ?";
         $query = $this->db->query($sql, [$category_id]);
         if ($query) {
             return $query->result();
@@ -54,13 +54,20 @@ class Student_model extends CR_Model
         $response = create_response();
         $check_file = $this->prepare_temp_image("student_photo", FALSE);
         if ($check_file->valid) {
-            $birthdate = explode("-", $input->student_dob);
-            $student_age = (date("md", date("U", mktime(0, 0, 0, $birthdate[1], $birthdate[2], $birthdate[0]))) > date("md") ? ((date("Y") - $birthdate[0]) - 1) : (date("Y") - $birthdate[0]));
             $this->db->trans_begin();
-            $sql = "INSERT INTO `list_student` "
-                . "(`student_name`, `student_dob`, `student_trustee`, `student_address`, `category_id`, `student_school`, `note`, `student_age`, `student_status_id`) VALUES "
-                . "(?, ?, ?, ?, ?, ?, ?, ?, 1)";
-            $query = $this->db->query($sql, [$input->student_name, $input->student_dob, $input->student_trustee, $input->student_address, $input->category_id, $input->student_school, $input->student_note, $student_age]);
+            $values = [
+                "student_name" => $input->student_name,
+                "student_gender" => $input->student_gender,
+                "student_age" => $input->student_age,
+                "category_id" => $input->category_id,
+                "student_education" => $input->student_education,
+                "student_class" => $input->student_class,
+                "student_address" => $input->student_address,
+                "student_note" => $input->student_note,
+                "father_profesion" => $input->father_profesion,
+                "mother_profesion" => $input->mother_profesion,
+            ];
+            $query = $this->db->insert("list_student", $values);
             if ($query) {
                 $response->student_id = $this->db->insert_id();
                 if ($check_file->uploaded) {
@@ -125,19 +132,22 @@ class Student_model extends CR_Model
         $response = create_response();
         $check_file = $this->prepare_temp_image("student_photo", FALSE);
         if ($check_file->valid) {
-            $birthdate = explode("-", $input->student_dob);
-            $student_age = (date("md", date("U", mktime(0, 0, 0, $birthdate[1], $birthdate[2], $birthdate[0]))) > date("md") ? ((date("Y") - $birthdate[0]) - 1) : (date("Y") - $birthdate[0]));
             $this->db->trans_begin();
-            $sql = "UPDATE `list_student` "
-                . "SET `student_name` = ? "
-                . ", `student_dob` = ? "
-                . ", `student_trustee` = ? "
-                . ", `category_id` = ? "
-                . ", `student_school` = ? "
-                . ", `note` = ? "
-                . ", `student_age` = ? "
-                . "WHERE `student_id` = ?";
-            $query = $this->db->query($sql, [$input->student_name, $input->student_dob, $input->student_trustee, $input->category_id, $input->student_school, $input->student_note, $student_age, $input->student_id]);
+            $values = [
+                "student_name" => $input->student_name,
+                "student_gender" => $input->student_gender,
+                "student_age" => $input->student_age,
+                "category_id" => $input->category_id,
+                "student_education" => $input->student_education,
+                "student_class" => $input->student_class,
+                "student_address" => $input->student_address,
+                "student_note" => $input->student_note,
+                "father_profesion" => $input->father_profesion,
+                "mother_profesion" => $input->mother_profesion,
+            ];
+
+            $query = $this->db->update("list_student", $values, ["student_id" => $input->student_id]);
+            // var_dump($this->db->last_query());
             if ($query) {
                 if ($check_file->uploaded) {
                     $file_name = "STUDENT_" . $input->student_id . "_" . time();
@@ -235,7 +245,7 @@ class Student_model extends CR_Model
         $response = create_response();
         $sql = "SELECT * "
             . "FROM `list_student` ls "
-            . "JOIN `list_student_status` lss ON lss.`student_status_id` = ls.`student_status_id` "
+            // . "JOIN `list_student_status` lss ON lss.`student_status_id` = ls.`student_status_id` "
             . "JOIN `list_category` lc ON lc.`category_id` = ls.`category_id` "
             . "WHERE ls.`student_id` = ?";
         $query = $this->db->query($sql, [$student_id]);
