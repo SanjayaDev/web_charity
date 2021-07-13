@@ -229,14 +229,27 @@ class Student_model extends CR_Model
     public function discontinue_student($student_id)
     {
         $response = create_response();
-        $sql = "UPDATE `list_student` SET `student_status_id` = 2 WHERE `student_id` = ?";
-        $query = $this->db->query($sql, [$student_id]);
-        if ($query) {
-            $response->success = TRUE;
-            $response->message = "Sukses menghapus data siswa";
+        $delete_image = $this->delete_old_file("list_student", "student_id", $student_id, "./uploads", "file_path");
+
+        if ($delete_image->success) {
+            $delete_student = $this->db->delete("list_student", ["student_id" => $student_id]);
+
+            if ($delete_student) {
+                $response->message = "Success deleted student!";
+            } else {
+                $response->message = "Query error!";
+            }
         } else {
-            $response->message = "Gagal menghapus data siswa";
+            $response->message = $delete_image->message;
         }
+        // $sql = "UPDATE `list_student` SET `student_status_id` = 2 WHERE `student_id` = ?";
+        // $query = $this->db->query($sql, [$student_id]);
+        // if ($query) {
+        //     $response->success = TRUE;
+        //     $response->message = "Sukses menghapus data siswa";
+        // } else {
+        //     $response->message = "Gagal menghapus data siswa";
+        // }
         return $response;
     }
 

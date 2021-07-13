@@ -579,7 +579,8 @@ class CR_Model extends CI_Model
             $response->success = TRUE;
           }
         } else {
-          $response->message = "File not found!";
+          $response->success = TRUE;
+          // $response->message = "File not found!";
         }
       } else {
         $response->success = TRUE;
